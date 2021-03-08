@@ -39,6 +39,33 @@
                             "cached": false
                         },
                         {
+                            "id": "dce4f7f3-a0a6-46bb-9216-c9089d9e9b0d",
+                            "name": "cleaning",
+                            "displayName": "Cleaning",
+                            "displayNameEvent": "Cleaning yes/no",
+                            "type": "bool",
+                            "defaultValue": false,
+                            "cached": false
+                        },
+                        {
+                            "id": "0f925abf-396c-437e-b259-2fed7eafe7f4",
+                            "name": "paused",
+                            "displayName": "Paused",
+                            "displayNameEvent": "Cleaning paused yes/no",
+                            "type": "bool",
+                            "defaultValue": false,
+                            "cached": false
+                        },
+                        {
+                            "id": "805175ec-c2e4-4fbe-9505-282750ef1467",
+                            "name": "docked",
+                            "displayName": "Docked",
+                            "displayNameEvent": "Robot docked yes/no",
+                            "type": "bool",
+                            "defaultValue": true,
+                            "cached": false
+                        },
+                        {
                             "id": "b0db7079-49f0-444a-9c55-4bb4c764f3cb",
                             "name": "loggedIn",
                             "displayName": "Logged in",
@@ -71,7 +98,12 @@
                         {
                             "id": "1f774998-5fa7-4e3b-8ab0-a8402dd561bb",
                             "name": "startCleaning",
-                            "displayName": "Start cleaning"
+                            "displayName": "Start/pause cleaning"
+                        },
+                        {
+                            "id": "5178a803-5696-4ee1-80a4-2c7c20a5043a",
+                            "name": "goToBase",
+                            "displayName": "Go to base"
                         },
                         {
                             "id": "30775042-55a7-4f1b-9042-a9bdeadc4b0d",

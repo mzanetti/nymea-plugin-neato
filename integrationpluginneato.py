@@ -67,9 +67,22 @@ def setupThing(info):
 
 def executeAction(info):
     if info.actionTypeId == robotStartCleaningActionTypeId:
-        thingsAndRobots[info.thing].start_cleaning()
+        rbtState = thingsAndRobots[info.thing].get_robot_state()
+        logger.log("Robot state: ", rbtState)
+        if rbtState.availableCommands.start == True:
+            logger.log("Start cleaning")
+            thingsAndRobots[info.thing].start_cleaning()
+        elif rbtState.availableCommands.pause == True:
+            logger.log("Pause cleaning")
+            thingsAndRobots[info.thing].pause_cleaning()
+        elif rbtState.availableCommands.resume == True:
+            thingsAndRobots[info.thing].resume_cleaning()
         info.finish(nymea.ThingErrorNoError)
         return
+
+    if info.actionTypeId == robotGoToBaseActionTypeId:
+        thingsAndRobots[info.thing].send_to_base()
+        info.finish(nymea.ThingErrorNoError)
 
     if info.actionTypeId == robotStopCleaningActionTypeId:
         thingsAndRobots[info.thing].stop_cleaning()
