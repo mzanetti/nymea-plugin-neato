@@ -34,7 +34,7 @@ def setupThing(info):
         for robot in account.robots:
             logger.log(robot)
             # Check if this robot is already added in nymea
-            for thing in myThing():
+            for thing in myThings():
                 if thing.paramValue(robotThingSerialParamTypeId) == robot.serial:
                     # Yep, already here... skip it
                     continue
