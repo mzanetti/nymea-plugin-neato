@@ -70,13 +70,9 @@ def executeAction(info):
         rbtState = thingsAndRobots[info.thing].get_robot_state()
         rbtStateJson = rbtState.json()
         rbtStateCommands = rbtStateJson['availableCommands']
-        logger.log("Robot state: ", rbtStateCommands)
         rbtStartAv = rbtStateCommands['start']
         rbtPauseAv = rbtStateCommands['pause']
         rbtResumeAv = rbtStateCommands['resume']
-        logger.log("Start available: ", rbtStartAv)
-        logger.log("Pause available: ", rbtPauseAv)
-        logger.log("Resume available: ", rbtResumeAv)
         if rbtStartAv == True:
             logger.log("Start cleaning")
             thingsAndRobots[info.thing].start_cleaning()
