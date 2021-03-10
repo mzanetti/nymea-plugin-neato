@@ -66,6 +66,15 @@
                             "cached": false
                         },
                         {
+                            "id": "20ed8767-806f-4ec2-8626-842cd398f9df",
+                            "name": "charge",
+                            "displayName": "Battery level",
+                            "displayNameEvent": "Battery level percentage",
+                            "type": "int",
+                            "defaultValue": 0,
+                            "cached": false
+                        },
+                        {
                             "id": "b0db7079-49f0-444a-9c55-4bb4c764f3cb",
                             "name": "loggedIn",
                             "displayName": "Logged in",
