@@ -7,7 +7,6 @@ from pybotvac import Account, Neato, OAuthSession, PasswordlessSession, Password
 
 thingsAndRobots = {}
 
-
 def setupThing(info):
     # Setup for the account
     if info.thing.thingClassId == accountThingClassId:
@@ -50,6 +49,10 @@ def setupThing(info):
 
         # And let nymea know about all the users robots
         autoThingsAppeared(thingDescriptors)
+
+        # If no poll timer is set up yet, start it now
+        logger.log("Creating polltimer")
+        threading.Timer(5, pollService).start()
         return
 
 
@@ -62,54 +65,66 @@ def setupThing(info):
         thingsAndRobots[info.thing] = robot;
         logger.log(robot.get_robot_state())
         # set up polling for robot status
-        global timer
-        timer = threading.Timer(5, pollService, [info.thing])
-        timer.start()
         info.finish(nymea.ThingErrorNoError)
         return;
 
-def pollService(thing):        
-    # Get robot state
-    rbtState = thingsAndRobots[thing].get_robot_state()
-    rbtStateJson = rbtState.json()
 
-    # Set robot docked/charging state
-    rbtStateDetails = rbtStateJson['details']
-    rbtCharging = rbtStateDetails['isCharging']
-    rbtDocked = rbtStateDetails['isDocked']
-    rbtStateOfCharge = rbtStateDetails['charge']
-    logger.log("Updating thing", thing.name, "Charging", rbtCharging)
-    thing.setStateValue(robotChargingStateTypeId, rbtCharging)
-    logger.log("Updating thing", thing.name, "Docked", rbtDocked)
-    thing.setStateValue(robotDockedStateTypeId, rbtDocked)
-    logger.log("Updating thing", thing.name, "Battery Charge Level", rbtStateOfCharge)
-    thing.setStateValue(robotBatteryLevelStateTypeId, rbtStateOfCharge)
 
-    # Set robot cleaning/paused state
-    rbtStateCommands = rbtStateJson['availableCommands']
-    rbtStartAv = rbtStateCommands['start']
-    rbtPauseAv = rbtStateCommands['pause']
-    rbtResumeAv = rbtStateCommands['resume']
-    if rbtStartAv == True:
-        logger.log("Updating thing", thing.name, "Cleaning: False")
-        thing.setStateValue(robotCleaningStateTypeId, False)
-        thing.setStateValue(robotPausedStateTypeId, False)
-    elif rbtPauseAv == True:
-        logger.log("Updating thing", thing.name, "Cleaning: True")
-        thing.setStateValue(robotCleaningStateTypeId, True)
-        thing.setStateValue(robotPausedStateTypeId, False)
-    elif rbtResumeAv == True:
-        logger.log("Updating thing", thing.name, "Paused: True")
-        thing.setStateValue(robotCleaningStateTypeId, True)
-        thing.setStateValue(robotPausedStateTypeId, True)
+def pollService():
+    logger.log("pollService!!!")
+
+    # Poll all robots we know
+    for thing in myThings():
+        if thing.thingClassId == robotThingClassId:
+            robot = thingsAndRobots[thing]
+            logger.log("polling robot:", robot)
+
+            # Get robot state
+            rbtState = thingsAndRobots[thing].get_robot_state()
+            rbtStateJson = rbtState.json()
+
+            # Set robot docked/charging state
+            rbtStateDetails = rbtStateJson['details']
+            rbtCharging = rbtStateDetails['isCharging']
+            rbtDocked = rbtStateDetails['isDocked']
+            rbtStateOfCharge = rbtStateDetails['charge']
+            logger.log("Updating thing", thing.name, "Charging", rbtCharging)
+            thing.setStateValue(robotChargingStateTypeId, rbtCharging)
+            logger.log("Updating thing", thing.name, "Docked", rbtDocked)
+            thing.setStateValue(robotDockedStateTypeId, rbtDocked)
+            logger.log("Updating thing", thing.name, "Battery Charge Level", rbtStateOfCharge)
+            thing.setStateValue(robotBatteryLevelStateTypeId, rbtStateOfCharge)
+
+            # Set robot cleaning/paused state
+            rbtStateCommands = rbtStateJson['availableCommands']
+            rbtStartAv = rbtStateCommands['start']
+            rbtPauseAv = rbtStateCommands['pause']
+            rbtResumeAv = rbtStateCommands['resume']
+            if rbtStartAv == True:
+                logger.log("Updating thing", thing.name, "Cleaning: False")
+                thing.setStateValue(robotCleaningStateTypeId, False)
+                thing.setStateValue(robotPausedStateTypeId, False)
+            elif rbtPauseAv == True:
+                logger.log("Updating thing", thing.name, "Cleaning: True")
+                thing.setStateValue(robotCleaningStateTypeId, True)
+                thing.setStateValue(robotPausedStateTypeId, False)
+            elif rbtResumeAv == True:
+                logger.log("Updating thing", thing.name, "Paused: True")
+                thing.setStateValue(robotCleaningStateTypeId, True)
+                thing.setStateValue(robotPausedStateTypeId, True)
+
+    # restart the timer for next poll
+    threading.Timer(5, pollService).start()
+
        
+
 def thingRemoved(thing):
-    global timer
-    timer.cancel()
-    
-def deinit():
-    global timer
-    timer.cancel()
+    if len(myThings()) is 0:
+        global pollTimer
+        pollTimer.cancel()
+        del pollTimer
+        pollTimer = None
+
 
 def executeAction(info):
     if info.actionTypeId == robotStartCleaningActionTypeId:
