@@ -1,5 +1,6 @@
 import nymea
 import time
+import threading
 from pybotvac import Account, Neato, OAuthSession, PasswordlessSession, PasswordSession, Vorwerk, Robot
 
 # pybotvac library: https://github.com/stianaske/pybotvac
@@ -60,41 +61,55 @@ def setupThing(info):
         robot = Robot(serial, secret, info.thing.name)
         thingsAndRobots[info.thing] = robot;
         logger.log(robot.get_robot_state())
-        
-        # Get robot docked/charging state
-        rbtState = thingsAndRobots[info.thing].get_robot_state()
-        rbtStateJson = rbtState.json()
-
-        rbtStateDetails = rbtStateJson['details']
-        rbtCharging = rbtStateDetails['isCharging']
-        rbtDocked = rbtStateDetails['isDocked']
-        rbtStateOfCharge = rbtStateDetails['charge']
-        logger.log("Updating thing", info.thing.name, "Charging", rbtCharging)
-        info.thing.setStateValue(robotChargingStateTypeId, rbtCharging)
-        logger.log("Updating thing", info.thing.name, "Charging", rbtDocked)
-        info.thing.setStateValue(robotDockedStateTypeId, rbtDocked)
-        logger.log("Updating thing", info.thing.name, "Battery Charge Level", rbtStateOfCharge)
-        info.thing.setStateValue(robotBatteryLevelStateTypeId, rbtStateOfCharge)
-
-        # Get robot cleaning/paused state
-        rbtStateCommands = rbtStateJson['availableCommands']
-        rbtStartAv = rbtStateCommands['start']
-        rbtPauseAv = rbtStateCommands['pause']
-        rbtResumeAv = rbtStateCommands['resume']
-        if rbtStartAv == True:
-            logger.log("Updating thing", info.thing.name, " Cleaning: False")
-            info.thing.setStateValue(robotCleaningStateTypeId, False)
-            info.thing.setStateValue(robotPausedStateTypeId, False)
-        elif rbtPauseAv == True:
-            logger.log("Updating thing", info.thing.name, " Cleaning: True")
-            info.thing.setStateValue(robotCleaningStateTypeId, True)
-            info.thing.setStateValue(robotPausedStateTypeId, False)
-        elif rbtResumeAv == True:
-            logger.log("Updating thing", info.thing.name, " Paused: True")
-            info.thing.setStateValue(robotCleaningStateTypeId, True)
-            info.thing.setStateValue(robotPausedStateTypeId, True)
+        # set up polling for robot status
+        global timer
+        timer = threading.Timer(5, pollService, [info.thing])
+        timer.start()
         info.finish(nymea.ThingErrorNoError)
         return;
+
+def pollService(thing):        
+    # Get robot state
+    rbtState = thingsAndRobots[thing].get_robot_state()
+    rbtStateJson = rbtState.json()
+
+    # Set robot docked/charging state
+    rbtStateDetails = rbtStateJson['details']
+    rbtCharging = rbtStateDetails['isCharging']
+    rbtDocked = rbtStateDetails['isDocked']
+    rbtStateOfCharge = rbtStateDetails['charge']
+    logger.log("Updating thing", thing.name, "Charging", rbtCharging)
+    thing.setStateValue(robotChargingStateTypeId, rbtCharging)
+    logger.log("Updating thing", thing.name, "Docked", rbtDocked)
+    thing.setStateValue(robotDockedStateTypeId, rbtDocked)
+    logger.log("Updating thing", thing.name, "Battery Charge Level", rbtStateOfCharge)
+    thing.setStateValue(robotBatteryLevelStateTypeId, rbtStateOfCharge)
+
+    # Set robot cleaning/paused state
+    rbtStateCommands = rbtStateJson['availableCommands']
+    rbtStartAv = rbtStateCommands['start']
+    rbtPauseAv = rbtStateCommands['pause']
+    rbtResumeAv = rbtStateCommands['resume']
+    if rbtStartAv == True:
+        logger.log("Updating thing", thing.name, "Cleaning: False")
+        thing.setStateValue(robotCleaningStateTypeId, False)
+        thing.setStateValue(robotPausedStateTypeId, False)
+    elif rbtPauseAv == True:
+        logger.log("Updating thing", thing.name, "Cleaning: True")
+        thing.setStateValue(robotCleaningStateTypeId, True)
+        thing.setStateValue(robotPausedStateTypeId, False)
+    elif rbtResumeAv == True:
+        logger.log("Updating thing", thing.name, "Paused: True")
+        thing.setStateValue(robotCleaningStateTypeId, True)
+        thing.setStateValue(robotPausedStateTypeId, True)
+       
+def thingRemoved(thing):
+    global timer
+    timer.cancel()
+    
+def deinit():
+    global timer
+    timer.cancel()
 
 def executeAction(info):
     if info.actionTypeId == robotStartCleaningActionTypeId:
