@@ -120,15 +120,6 @@ def pollService():
     # restart the timer for next poll
     threading.Timer(5, pollService).start()
 
-       
-
-def thingRemoved(thing):
-    if len(myThings()) is 0:
-        global pollTimer
-        pollTimer.cancel()
-        del pollTimer
-        pollTimer = None
-
 
 def executeAction(info):
     if info.actionTypeId == robotStartCleaningActionTypeId:
