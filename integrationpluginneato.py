@@ -35,10 +35,14 @@ def setupThing(info):
         for robot in account.robots:
             logger.log(robot)
             # Check if this robot is already added in nymea
+            found = False
             for thing in myThings():
                 if thing.paramValue(robotThingSerialParamTypeId) == robot.serial:
                     # Yep, already here... skip it
+                    found = True
                     continue
+            if found:
+                continue
 
             thingDescriptor = nymea.ThingDescriptor(robotThingClassId, robot.name)
             thingDescriptor.params = [
@@ -115,15 +119,6 @@ def pollService():
 
     # restart the timer for next poll
     threading.Timer(5, pollService).start()
-
-       
-
-def thingRemoved(thing):
-    if len(myThings()) is 0:
-        global pollTimer
-        pollTimer.cancel()
-        del pollTimer
-        pollTimer = None
 
 
 def executeAction(info):
