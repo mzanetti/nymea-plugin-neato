@@ -28,6 +28,29 @@
                             "type": "QString"
                         }
                     ],
+                    "settingsTypes": [
+                        {
+                            "id": "dabaafd3-908f-4f06-8039-5a7a729346da",
+                            "name": "eco",
+                            "displayName": "Eco (or Turbo)",
+                            "type": "bool",
+                            "defaultValue": true
+                        },
+                        {
+                            "id": "86694abb-5633-4e62-bd6c-325eb246c683",
+                            "name": "care",
+                            "displayName": "Extra Care",
+                            "type": "bool",
+                            "defaultValue": false
+                        },
+                        {
+                            "id": "f72bcfbd-a262-44b3-ad75-9bb094aa2bb1",
+                            "name": "noGoLines",
+                            "displayName": "No-go Lines Enables",
+                            "type": "bool",
+                            "defaultValue": true
+                        }
+                    ],
                     "stateTypes":[
                         {
                             "id": "e8f47781-e3fd-416f-a9ac-51ef942d0573",
