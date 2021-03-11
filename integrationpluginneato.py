@@ -1,18 +1,46 @@
 import nymea
 from pybotvac import Account, Neato, OAuthSession, PasswordlessSession, PasswordSession, Vorwerk, Robot
+import json
+import time
+import threading
 
 # pybotvac library: https://github.com/stianaske/pybotvac
 
 thingsAndRobots = {}
+oauthSessions = {}
+
+timer = None
+
+def startPairing(info):
+    # Start OAuth2 session
+    apiKey = apiKeyStorage().requestKey("neato")
+    oauthSession = OAuthSession(client_id=apiKey.data("clientId"), client_secret=apiKey.data("clientSecret"), redirect_uri="https://127.0.0.1:8888", vendor=Neato())
+    oauthSessions[info.transactionId] = oauthSession;
+    authorizationUrl = oauthSession.get_authorization_url()
+    info.oAuthUrl = authorizationUrl
+    info.finish(nymea.ThingErrorNoError)
+
+
+def confirmPairing(info, username, secret):
+    # The user has successfully logged in at neato. Obtain the token from the OAuth session
+    token = oauthSessions[info.transactionId].fetch_token(secret)
+    pluginStorage().beginGroup(info.thingId)
+    pluginStorage().setValue("token", json.dumps(token))
+    pluginStorage().endGroup();
+    del oauthSessions[info.transactionId]
+    info.finish(nymea.ThingErrorNoError)
 
 
 def setupThing(info):
     # Setup for the account
     if info.thing.thingClassId == accountThingClassId:
-        username = info.thing.paramValue(accountThingUserParamTypeId)
-        password = info.thing.paramValue(accountThingPasswordParamTypeId)
+        pluginStorage().beginGroup(info.thing.id)
+        token = json.loads(pluginStorage().value("token"))
+        logger.log("setup", token)
+        pluginStorage().endGroup();
+
         try:
-            password_session = PasswordSession(email=username, password=password, vendor=Neato())
+            oAuthSession = OAuthSession(token=token)
             # Login went well, finish the setup
             info.finish(nymea.ThingErrorNoError)
         except:
@@ -25,7 +53,7 @@ def setupThing(info):
         info.thing.setStateValue(accountConnectedStateTypeId, True)
 
         # Create an account session on the session to get info about the login
-        account = Account(password_session)
+        account = Account(oAuthSession)
 
         # List all robots associated with account
         logger.log("account created. Robots:", account.robots);
@@ -74,3 +102,4 @@ def executeAction(info):
     if info.actionTypeId == robotStopCleaningActionTypeId:
         thingsAndRobots[info.thing].stop_cleaning()
         info.finish(nymea.ThingErrorNoError)
+
