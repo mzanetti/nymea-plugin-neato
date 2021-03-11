@@ -118,7 +118,7 @@ def pollService():
                 thing.setStateValue(robotPausedStateTypeId, True)
 
     # restart the timer for next poll
-    threading.Timer(5, pollService).start()
+    threading.Timer(60, pollService).start()
 
 
 def executeAction(info):
@@ -137,13 +137,16 @@ def executeAction(info):
             thingsAndRobots[info.thing].pause_cleaning()
         elif rbtResumeAv == True:
             thingsAndRobots[info.thing].resume_cleaning()
+        threading.Timer(5, pollService).start()
         info.finish(nymea.ThingErrorNoError)
         return
 
     if info.actionTypeId == robotGoToBaseActionTypeId:
         thingsAndRobots[info.thing].send_to_base()
+        threading.Timer(5, pollService).start()
         info.finish(nymea.ThingErrorNoError)
 
     if info.actionTypeId == robotStopCleaningActionTypeId:
         thingsAndRobots[info.thing].stop_cleaning()
+        threading.Timer(5, pollService).start()
         info.finish(nymea.ThingErrorNoError)
