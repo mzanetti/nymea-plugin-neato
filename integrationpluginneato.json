@@ -74,7 +74,7 @@
                         {
                             "id": "dabaafd3-908f-4f06-8039-5a7a729346da",
                             "name": "eco",
-                            "displayName": "Eco (or Turbo)",
+                            "displayName": "Eco",
                             "type": "bool",
                             "defaultValue": true
                         },
@@ -88,7 +88,7 @@
                         {
                             "id": "f72bcfbd-a262-44b3-ad75-9bb094aa2bb1",
                             "name": "noGoLines",
-                            "displayName": "No-go Lines Enables",
+                            "displayName": "No-go Lines Enabled",
                             "type": "bool",
                             "defaultValue": true
                         }
