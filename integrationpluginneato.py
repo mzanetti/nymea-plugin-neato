@@ -150,3 +150,9 @@ def executeAction(info):
         thingsAndRobots[info.thing].stop_cleaning()
         threading.Timer(5, pollService).start()
         info.finish(nymea.ThingErrorNoError)
+
+    if info.actionTypeId == robotGetStateActionTypeId:
+        rbtState = thingsAndRobots[info.thing].get_robot_state()
+        logger.log(rbtState)
+        threading.Timer(5, pollService).start()
+        info.finish(nymea.ThingErrorNoError)
