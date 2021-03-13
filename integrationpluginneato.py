@@ -155,8 +155,8 @@ def executeAction(info):
         rbtState = thingsAndRobots[info.thing].get_robot_state()
         rbtStateJson = rbtState.json()
         logger.log("Robot State", rbtStateJson)
-        rbtStateServices = rbtStateJson['availableServices']
-        rbtMaps = rbtStateServices['maps']
-        logger.log("Robot Maps", rbtStateJson)
+        rbtMapBound = thingsAndRobots[info.thing].get_map_boundaries()
+        rbtMapBoundJson = rbtMapBound.json()
+        logger.log("Robot Map Boundaries", rbtMapBoundJson)
         threading.Timer(5, pollService).start()
         info.finish(nymea.ThingErrorNoError)
