@@ -153,6 +153,10 @@ def executeAction(info):
 
     if info.actionTypeId == robotGetStateActionTypeId:
         rbtState = thingsAndRobots[info.thing].get_robot_state()
-        logger.log(rbtState)
+        rbtStateJson = rbtState.json()
+        logger.log("Robot State", rbtStateJson)
+        rbtStateServices = rbtStateJson['availableServices']
+        rbtMaps = rbtStateServices['maps']
+        logger.log("Robot Maps", rbtStateJson)
         threading.Timer(5, pollService).start()
         info.finish(nymea.ThingErrorNoError)
