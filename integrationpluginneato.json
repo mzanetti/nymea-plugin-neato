@@ -157,6 +157,11 @@
                             "id": "30775042-55a7-4f1b-9042-a9bdeadc4b0d",
                             "name": "stopCleaning",
                             "displayName": "Stop cleaning"
+                        },
+                        {
+                            "id": "95ba515b-0023-4a98-a867-ca8286512a4e",
+                            "name": "getState",
+                            "displayName": "Get robot state"
                         }
                     ]
                 }
