@@ -51,8 +51,14 @@
                             "name": "availableMaps",
                             "displayName": "Available maps",
                             "displayNameEvent": "Available maps changed",
-                            "type": "bool",
-                            "defaultValue": false
+                            "type": "dict"
+                        }
+                    ],
+                    "actionTypes": [
+                        {
+                            "id": "a4b5f07f-e71a-4c3a-8d6b-50162a455159",
+                            "name": "getMaps",
+                            "displayName": "Get available maps"
                         }
                     ]
                 },

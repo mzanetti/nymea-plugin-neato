@@ -52,7 +52,12 @@ def setupThing(info):
             thingDescriptors.append(thingDescriptor)
 
         # And let nymea know about all the users robots
-        autoThingsAppeared(thingDescriptors)
+        accountMaps = refresh_persistent_maps(account)
+        mapsJson = accountMaps.json()
+        logger.log("Robot State", rbtStateJson)
+
+        # Get info on available maps on account
+
 
         # If no poll timer is set up yet, start it now
         logger.log("Creating polltimer")
@@ -152,10 +157,11 @@ def executeAction(info):
         info.finish(nymea.ThingErrorNoError)
 
     if info.actionTypeId == robotTestActionActionTypeId:
-        accountMaps = thingsAndRobots.refresh_persistent_maps(Account)
+        logger.log("Test action button pushed")
+        # accountMaps = thingsAndRobots.refresh_persistent_maps(account)
         # rbtState = thingsAndRobots[info.thing].get_robot_state()
-        mapsJson = accountMaps.json()
-        logger.log("Robot State", rbtStateJson)
+        # mapsJson = accountMaps.json()
+        # logger.log("Robot State", rbtStateJson)
         # rbtMapBound = thingsAndRobots[info.thing].get_map_boundaries()
         # rbtMapBoundJson = rbtMapBound.json()
         # logger.log("Robot Map Boundaries", rbtMapBoundJson)
