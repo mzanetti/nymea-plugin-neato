@@ -45,7 +45,9 @@
                             "displayNameEvent": "Logged in or out",
                             "type": "bool",
                             "defaultValue": false
-                        },
+                        }
+                    ],
+                    "settingsTypes":[
                         {
                             "id": "1840b38c-4e5d-4d77-80df-c0b1179406d6",
                             "name": "availableMaps",
@@ -175,8 +177,8 @@
                         },
                         {
                             "id": "95ba515b-0023-4a98-a867-ca8286512a4e",
-                            "name": "testAction",
-                            "displayName": "Action for test purposes"
+                            "name": "getBoundaries",
+                            "displayName": "Get No-go Lines"
                         }
                     ]
                 }
