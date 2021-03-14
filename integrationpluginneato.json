@@ -51,7 +51,8 @@
                             "name": "availableMaps",
                             "displayName": "Available maps",
                             "displayNameEvent": "Available maps changed",
-                            "type": "dict"
+                            "type": "dict",
+                            "defaultValue": {}
                         }
                     ],
                     "actionTypes": [
