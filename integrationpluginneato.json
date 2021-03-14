@@ -52,7 +52,7 @@
                             "id": "1840b38c-4e5d-4d77-80df-c0b1179406d6",
                             "name": "availableMaps",
                             "displayName": "Available maps",
-                            "type": "dictionary",
+                            "type": "dict",
                             "defaultValue": {}
                         }
                     ],
