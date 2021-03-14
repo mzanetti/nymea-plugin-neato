@@ -52,12 +52,13 @@ def setupThing(info):
             thingDescriptors.append(thingDescriptor)
 
         # And let nymea know about all the users robots
+        autoThingsAppeared(thingDescriptors)
+
+        # Get info on available maps on account
         accountMaps = refresh_persistent_maps(account)
         mapsJson = accountMaps.json()
         logger.log("Robot State", rbtStateJson)
-
-        # Get info on available maps on account
-
+        info.thing.availableMaps = accountMaps
 
         # If no poll timer is set up yet, start it now
         logger.log("Creating polltimer")

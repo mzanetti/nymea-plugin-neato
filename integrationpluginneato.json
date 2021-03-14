@@ -45,12 +45,13 @@
                             "displayNameEvent": "Logged in or out",
                             "type": "bool",
                             "defaultValue": false
-                        },
+                        }
+                    ],
+                    "settingsTypes":[
                         {
                             "id": "1840b38c-4e5d-4d77-80df-c0b1179406d6",
                             "name": "availableMaps",
                             "displayName": "Available maps",
-                            "displayNameEvent": "Available maps changed",
                             "type": "dict",
                             "defaultValue": {}
                         }
