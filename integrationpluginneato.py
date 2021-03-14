@@ -151,12 +151,13 @@ def executeAction(info):
         threading.Timer(5, pollService).start()
         info.finish(nymea.ThingErrorNoError)
 
-    if info.actionTypeId == robotGetStateActionTypeId:
-        rbtState = thingsAndRobots[info.thing].get_robot_state()
-        rbtStateJson = rbtState.json()
+    if info.actionTypeId == robotTestActionActionTypeId:
+        accountMaps = thingsAndRobots.refresh_persistent_maps(Account)
+        # rbtState = thingsAndRobots[info.thing].get_robot_state()
+        mapsJson = accountMaps.json()
         logger.log("Robot State", rbtStateJson)
-        rbtMapBound = thingsAndRobots[info.thing].get_map_boundaries()
-        rbtMapBoundJson = rbtMapBound.json()
-        logger.log("Robot Map Boundaries", rbtMapBoundJson)
+        # rbtMapBound = thingsAndRobots[info.thing].get_map_boundaries()
+        # rbtMapBoundJson = rbtMapBound.json()
+        # logger.log("Robot Map Boundaries", rbtMapBoundJson)
         threading.Timer(5, pollService).start()
         info.finish(nymea.ThingErrorNoError)

@@ -45,6 +45,14 @@
                             "displayNameEvent": "Logged in or out",
                             "type": "bool",
                             "defaultValue": false
+                        },
+                        {
+                            "id": "1840b38c-4e5d-4d77-80df-c0b1179406d6",
+                            "name": "availableMaps",
+                            "displayName": "Available maps",
+                            "displayNameEvent": "Available maps changed",
+                            "type": "bool",
+                            "defaultValue": false
                         }
                     ]
                 },
@@ -160,8 +168,8 @@
                         },
                         {
                             "id": "95ba515b-0023-4a98-a867-ca8286512a4e",
-                            "name": "getState",
-                            "displayName": "Get robot state"
+                            "name": "testAction",
+                            "displayName": "Action for test purposes"
                         }
                     ]
                 }
