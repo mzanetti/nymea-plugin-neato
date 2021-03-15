@@ -56,7 +56,8 @@ def setupThing(info):
         return
 
         # To do: Get info on available maps on account
-
+        # accountMaps = 
+        logger.log("Maps: ", account.map)
 
         # If no poll timer is set up yet, start it now
         logger.log("Creating polltimer")
@@ -74,7 +75,7 @@ def setupThing(info):
         logger.log(robot.get_robot_state())
         # set up polling for robot status
         info.finish(nymea.ThingErrorNoError)
-        return;
+        return
 
 
 
