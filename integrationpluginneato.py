@@ -58,8 +58,6 @@ def setupThing(info):
         # To do: Get info on available maps on account
         # accountMaps = 
         logger.log("Persistent maps: ", account.persistent_maps)
-        mapsJson = account.persistent_maps.json()
-        logger.log("JSON: ", mapsJson)
         mapsKeys = account.persistent_maps.keys()
         logger.log("Keys: ", mapsKeys)
         mapsValues = account.persistent_maps.values()
