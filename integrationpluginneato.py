@@ -53,10 +53,13 @@ def setupThing(info):
 
             thingDescriptor = nymea.ThingDescriptor(robotThingClassId, robot.name)
             logger.log("MapID for Serial: ", robot.serial, mapDict[robot.serial])
+            mapIDcomplete = robot.serial, mapDict[robot.serial]
+            logger.log("Type mapIDcomplete: ", type(mapIDcomplete))
+            mapIDshort = "mapIDtemp"
             thingDescriptor.params = [
                 nymea.Param(robotThingSerialParamTypeId, robot.serial),
                 nymea.Param(robotThingSecretParamTypeId, robot.secret),
-                nymea.Param(robotThingMapIdParamTypeId, robot.mapId)
+                nymea.Param(robotThingMapIdParamTypeId, mapIDshort)
             ]
             thingDescriptors.append(thingDescriptor)
 
