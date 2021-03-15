@@ -26,12 +26,6 @@
                             "name": "password",
                             "displayName": "Password",
                             "type": "QString"
-                        },
-                        {
-                            "id": "141f0d98-1806-432c-aaac-c0d3a89a8e58",
-                            "name": "mapId",
-                            "displayName": "Map ID",
-                            "type": "QString"
                         }
                     ],
                     "stateTypes":[
@@ -77,6 +71,12 @@
                             "id": "3793e48b-043e-43cb-b672-7c1e2e90bc8e",
                             "name": "secret",
                             "displayName": "Secret",
+                            "type": "QString"
+                        },
+                        {
+                            "id": "141f0d98-1806-432c-aaac-c0d3a89a8e58",
+                            "name": "mapId",
+                            "displayName": "Map ID",
                             "type": "QString"
                         }
                     ],
