@@ -31,6 +31,13 @@ def setupThing(info):
         # List all robots associated with account
         logger.log("account created. Robots:", account.robots);
 
+        logger.log("Persistent maps: ", account.persistent_maps)
+        mapDict = account.persistent_maps
+        mapKeys = mapDict.keys()
+        logger.log("Keys: ", mapKeys)
+        mapValues = mapDict.values()
+        logger.log("Values: ", mapValues)
+
         thingDescriptors = []
         for robot in account.robots:
             logger.log(robot)
@@ -45,9 +52,11 @@ def setupThing(info):
                 continue
 
             thingDescriptor = nymea.ThingDescriptor(robotThingClassId, robot.name)
+            logger.log("MapID for Serial: ", robot.serial, mapDict[robot.serial])
             thingDescriptor.params = [
                 nymea.Param(robotThingSerialParamTypeId, robot.serial),
-                nymea.Param(robotThingSecretParamTypeId, robot.secret)
+                nymea.Param(robotThingSecretParamTypeId, robot.secret),
+                nymea.Param(robotThingMapIdParamTypeId, robot.mapId)
             ]
             thingDescriptors.append(thingDescriptor)
 
@@ -55,16 +64,6 @@ def setupThing(info):
         autoThingsAppeared(thingDescriptors)
         # return
 
-        # To do: Get info on available maps on account
-        # accountMaps = 
-        logger.log("Persistent maps: ", account.persistent_maps)
-        mapsKeys = account.persistent_maps.keys()
-        logger.log("Keys: ", mapsKeys[1])
-        mapsValues = account.persistent_maps.values()
-        logger.log("Values: ", mapsValues[1])
-        # mapDict = {"serial": serial, "id": id, "name": name}
-        # logger.log(mapDict)
-        
         # If no poll timer is set up yet, start it now
         logger.log("Creating polltimer")
         threading.Timer(5, pollService).start()
