@@ -47,16 +47,6 @@
                             "defaultValue": false
                         }
                     ],
-                    // "settingsTypes":[
-                    //     {
-                    //         "id": "1840b38c-4e5d-4d77-80df-c0b1179406d6",
-                    //         "name": "availableMaps",
-                    //         "displayName": "Available maps",
-                    //         "displayNameEvent": "Available maps changed",
-                    //         "type": "list",
-                    //         "defaultValue": {}
-                    //     }
-                    // ],
                     "actionTypes": [
                         {
                             "id": "a4b5f07f-e71a-4c3a-8d6b-50162a455159",
