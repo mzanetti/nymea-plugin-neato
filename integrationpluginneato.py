@@ -57,7 +57,7 @@ def setupThing(info):
 
         # To do: Get info on available maps on account
         # accountMaps = 
-        logger.log("Maps: ", account.map)
+        logger.log("Maps: ", account.maps)
 
         # If no poll timer is set up yet, start it now
         logger.log("Creating polltimer")
