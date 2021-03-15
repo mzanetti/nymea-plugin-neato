@@ -59,9 +59,9 @@ def setupThing(info):
         # accountMaps = 
         logger.log("Persistent maps: ", account.persistent_maps)
         mapsKeys = account.persistent_maps.keys()
-        logger.log("Keys: ", mapsKeys)
+        logger.log("Keys: ", mapsKeys[1])
         mapsValues = account.persistent_maps.values()
-        logger.log("Values: ", mapsValues)
+        logger.log("Values: ", mapsValues[1])
         # mapDict = {"serial": serial, "id": id, "name": name}
         # logger.log(mapDict)
         
