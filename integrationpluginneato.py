@@ -57,9 +57,16 @@ def setupThing(info):
 
         # To do: Get info on available maps on account
         # accountMaps = 
-        logger.log("Maps: ", account.persistent_maps)
-        logger.log("Maps object type: ", type(account.persistent_maps))
-
+        logger.log("Persistent maps: ", account.persistent_maps)
+        mapsJson = account.persistent_maps.json()
+        logger.log("JSON: ", mapsJson)
+        mapsKeys = account.persistent_maps.keys()
+        logger.log("Keys: ", mapsKeys)
+        mapsValues = account.persistent_maps.values()
+        logger.log("Values: ", mapsValues)
+        # mapDict = {"serial": serial, "id": id, "name": name}
+        # logger.log(mapDict)
+        
         # If no poll timer is set up yet, start it now
         logger.log("Creating polltimer")
         threading.Timer(5, pollService).start()
