@@ -53,7 +53,7 @@ def setupThing(info):
 
         # And let nymea know about all the users robots
         autoThingsAppeared(thingDescriptors)
-        return
+        # return
 
         # To do: Get info on available maps on account
         # accountMaps = 
